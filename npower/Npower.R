@@ -472,3 +472,44 @@ title(main="Predicted vs. Observed
       train [validate]",
       sub=paste("Rattle", format(Sys.time(), "%Y-%b-%d %H:%M:%S"), Sys.info()["user"]))
 grid()
+
+
+
+################################
+
+#Prediction
+results<- predict(crs$rf,test)
+print(results)
+write.csv(results, file = "npower_test01.csv",row.names=T)
+
+
+attach(train)
+
+plot(Temp,Demand,col=c("red","green"))
+plot(Cloud_Cover,Demand,col=c("red","green"))
+plot(Humidity,Demand,col=c("red","green"))
+plot(Chill,Demand,col=c("red","green"))
+plot(Precip_Amount,Demand,col=c("red","green"))
+plot(Solar_Rad,Demand,col=c("red","green"))
+plot(Wind_Speed,Demand,col=c("red","green"))
+
+#################################
+#Multiple Linear Regression
+
+mylm01<- lm(Demand~ Temp+Solar_Rad+Chill, data = train)
+summary(mylm01)
+
+mylm02<- lm(Demand~ Temp+Solar_Rad+Humidity, data = train)
+summary(mylm02)
+
+mylm03<- lm(Demand~ Temp+Solar_Rad+Humidity+Chill, data = train)
+summary(mylm03)
+
+
+##################################
+
+
+
+
+
+
